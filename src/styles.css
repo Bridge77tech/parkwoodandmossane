@@ -1,0 +1,1461 @@
+/* ---------- Tokens ---------- */
+:root {
+  /* Size unit: 1px up to a 1440×800 screen, then grows with the screen so the
+     layout keeps the design's proportions on large monitors and TVs. Every size
+     below is in rem, which is 16 of these units. */
+  --u: clamp(1px, min(100vw / 1440, 100svh / 800), 3px);
+
+  --brown: #5c4e3b;
+  --gold: #947850;
+  --cream: #fffdfa;
+  --ink: #111111;
+  --gray-1: #333333;
+  --gray-3: #828282;
+  --gray-6: #f2f2f2;
+  --gray-4: #BDBDBD;
+  --nav-border: #aebac9;
+  --glass: rgba(255, 255, 255, 0.12);
+
+  --content-width: 72.875rem;
+  --gutter: 2rem;
+  /* Each section fills one browser screen. */
+  --screen: 100vh;
+}
+
+@supports (height: 100svh) {
+  :root {
+    --screen: 100svh;
+  }
+}
+
+/* How far the screen falls short of the 48rem design height. Gaps subtract a
+   share of this so shorter screens still fit each section on one screen. */
+:root {
+  --deficit: max(0rem, 48rem - var(--screen));
+}
+
+/* ---------- Base ---------- */
+html {
+  font-size: calc(16 * var(--u));
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--gray-1);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-optical-sizing: none;
+  font-variation-settings: 'opsz' 14;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+p,
+blockquote {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+  font-variation-settings: inherit;
+}
+
+:focus-visible {
+  outline: 0.125rem solid var(--gold);
+  outline-offset: 0.1875rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 0.0625rem;
+  height: 0.0625rem;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Layout ---------- */
+.section {
+  position: relative;
+  min-height: var(--screen);
+  overflow: hidden;
+}
+
+/* Stacks a section's content between two spacers. Each spacer starts at the
+   design's gap (less its share of --deficit) and they split any extra screen
+   height evenly, so content stays balanced on taller screens. */
+.screen {
+  display: flex;
+  flex-direction: column;
+}
+
+.screen::before,
+.screen::after {
+  content: '';
+  flex: 1 0 var(--gap-top);
+}
+
+.screen::after {
+  flex-basis: var(--gap-bottom);
+}
+
+.screen > .container {
+  flex: none;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  width: min(var(--content-width), 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+.section-title {
+  font-size: 2.25rem;
+  line-height: normal;
+  letter-spacing: -0.09rem;
+}
+
+/* ---------- Brand ---------- */
+.logo {
+  position: relative;
+  display: block;
+  width: 6rem;
+  height: 1.625rem;
+}
+
+.logo--large {
+  width: 15rem;
+  height: 4.0563rem;
+}
+
+/* Each piece gets an explicit box (from the Figma insets) so the SVGs stretch
+   with the logo; images don't size themselves from four inset edges. */
+.logo img {
+  position: absolute;
+}
+
+.logo__wordmark-top {
+  top: 16.95%;
+  left: 26.75%;
+  width: 71.21%;
+  height: 27.27%;
+}
+
+.logo__wordmark-bottom {
+  top: 60.55%;
+  left: 26.75%;
+  width: 48.88%;
+  height: 26.51%;
+}
+
+.logo__pillar-left {
+  top: 16.02%;
+  left: 1.21%;
+  width: 9.83%;
+  height: 72.12%;
+}
+
+.logo__pillar-right {
+  top: 15.87%;
+  left: 11.75%;
+  width: 9.79%;
+  height: 72.11%;
+}
+
+.corner-mark {
+  position: absolute;
+  z-index: 2;
+  bottom: 2.875rem;
+  right: max(1rem, (100% - var(--content-width)) / 2 - 0.21rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  pointer-events: none;
+}
+
+/* Size the wordmark in rem so it scales with the layout. */
+.corner-mark__top {
+  width: 4.2725rem;
+  height: auto;
+}
+
+.corner-mark__bottom {
+  width: 2.9325rem;
+  height: auto;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 3.75rem;
+  border: 0;
+  border-radius: 1.5rem;
+  color: #fff;
+  font-size: 1rem;
+  line-height: normal;
+  letter-spacing: -0.04rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.btn--brown {
+  background: var(--brown);
+  font-weight: 600;
+}
+
+.btn--black {
+  background: #000;
+  font-weight: 500;
+}
+
+.btn--brown:hover,
+.btn--black:hover {
+  opacity: 0.88;
+}
+
+.btn--glass {
+  border: 0.0625rem solid #fff;
+  background: var(--glass);
+  backdrop-filter: blur(0.1781rem);
+  -webkit-backdrop-filter: blur(0.1781rem);
+  font-weight: 500;
+}
+
+.btn--glass:hover,
+.btn--glass[aria-pressed='true'] {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.btn--pill {
+  padding: 0.5rem 2rem;
+  border: 0.0625rem solid var(--brown);
+  border-radius: 7.5rem;
+  background: var(--brown);
+  font-weight: 400;
+}
+
+/* ---------- Navigation ---------- */
+.nav {
+  position: fixed;
+  z-index: 50;
+  left: 50%;
+  width: min(var(--content-width), 100% - 2 * var(--gutter));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 3.75rem;
+  border: 0.0625rem solid var(--nav-border);
+  border-radius: 7.5rem;
+  backdrop-filter: blur(0.2125rem);
+  -webkit-backdrop-filter: blur(0.2125rem);
+  color: #fff;
+  font-size: 1rem;
+  letter-spacing: -0.04rem;
+  transform: translateX(-50%);
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.nav[data-visible='false'] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.nav--hero,
+.nav--scrolled {
+  top: 2.1875rem;
+}
+
+.nav--scrolled {
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--gray-1);
+}
+
+.nav--scrolled .btn--pill {
+  color: #fff;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  white-space: nowrap;
+}
+
+.nav__links a {
+  transition: opacity 0.2s ease;
+}
+
+.nav__links a:hover {
+  opacity: 0.75;
+}
+
+/* ---------- Screen stage ---------- */
+/* Every screen is a layer in one pinned, screen-sized stage; Screens.tsx moves
+   the layers along the scroll timeline and sets the track's height to its
+   length (the value here is just a pre-JS placeholder). */
+.screens-track {
+  position: relative;
+  height: calc(var(--screen) * 10);
+}
+
+.screens-stage {
+  position: sticky;
+  top: 0;
+  height: var(--screen);
+  overflow: hidden;
+  /* Shows around a screen as it eases back under the next one. */
+  background: #000;
+}
+
+.screen-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform-origin: 50% calc(var(--screen) / 2);
+  will-change: transform;
+}
+
+/* Before JS runs, keep later screens below the first. */
+.screen-layer + .screen-layer {
+  transform: translateY(var(--screen));
+}
+
+/* ---------- Hero ---------- */
+.hero-layer {
+  position: relative;
+}
+
+.hero {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--screen);
+  background: #e1e1e1;
+}
+
+/* The next screen, revealed inside the growing frame (clip/opacity set in JS). */
+.hero-reveal {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  will-change: clip-path, opacity;
+}
+
+.hero-reveal .services__content {
+  transform: scale(var(--reveal-scale, 1));
+}
+
+/* Keeps the design's crop of the sky, centred on the section. */
+.hero__sky {
+  position: absolute;
+  top: calc(50% + 4rem);
+  left: 50%;
+  width: max(125rem, 146.42%);
+  height: auto;
+  transform: translate(-43.85%, -50%);
+}
+
+/* The statue and its frame sit on the bottom edge of the screen. */
+.hero__statue {
+  position: absolute;
+  bottom: -0.625rem;
+  left: 50%;
+  width: 22rem;
+  height: 28.5625rem;
+  overflow: hidden;
+  transform: translateX(-50%);
+}
+
+.hero__statue img {
+  position: absolute;
+  top: -15.54%;
+  left: 0;
+  width: 99.97%;
+  height: 115.54%;
+}
+
+.hero__frame {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--screen) - 19rem);
+  pointer-events: none;
+  left: calc(50% - 12.5rem);
+  width: 26.25rem;
+  height: 26.25rem;
+  border: 0.3125rem solid #fff;
+  border-radius: 0.75rem;
+}
+
+.hero__content {
+  padding-top: 8.5625rem;
+  color: #fff;
+}
+
+.hero__title {
+  font-size: 6rem;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.24rem;
+}
+
+.hero__lede {
+  max-width: 38.5rem;
+  margin-bottom: 2.375rem;
+  font-size: 1.5rem;
+  line-height: 1.8125rem;
+  letter-spacing: -0.06rem;
+}
+
+/* ---------- Services ---------- */
+.services {
+  --gap-top: 6.25rem;
+  --gap-bottom: max(4.5rem, 11.125rem - var(--deficit) * 0.66);
+  background: var(--cream);
+}
+
+.services__content {
+  text-align: center;
+}
+
+.services__title {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.services__title em {
+  font-weight: 700;
+  font-style: italic;
+}
+
+.services__copy {
+  max-width: 64.625rem;
+  margin: 0.625rem auto max(1rem, 1.875rem - var(--deficit) * 0.1);
+  color: var(--gray-1);
+  font-size: 1rem;
+  line-height: 1.625rem;
+  letter-spacing: -0.02rem;
+}
+
+/* Full-bleed carousel viewport (the section clips it). */
+.services__carousel {
+  margin-top: max(1.25rem, 3.125rem - var(--deficit) * 0.3);
+  margin-inline: calc(50% - 50vw);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  /* Vertical swipes still scroll the page; sideways ones drag the carousel. */
+  touch-action: pan-y;
+}
+
+.services__carousel[data-dragging='true'] {
+  cursor: grabbing;
+}
+
+.services__carousel:focus-visible {
+  outline-offset: -0.25rem;
+}
+
+/* The track starts so its middle copy of the cards rests centred, as in the
+   design (one set is 1166 design px wide). JS moves it with a transform. */
+.services__cards {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  width: max-content;
+  margin-left: calc(50vw - 36.4375rem);
+  text-align: left;
+  will-change: transform;
+}
+
+.service-card {
+  position: relative;
+  will-change: transform, opacity;
+  flex: none;
+  width: 9.339rem;
+  height: var(--card-h);
+  overflow: hidden;
+  border-radius: 1.5rem;
+}
+
+.service-card__image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--img-w);
+  height: var(--img-h);
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+}
+
+.service-card__tint {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Progressive "Picture blur" behind the label, as rendered in the design. */
+.service-card__blur {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(0.5rem);
+  -webkit-backdrop-filter: blur(0.5rem);
+  mask-image: linear-gradient(to bottom, transparent 45%, #000 78%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 45%, #000 78%);
+}
+
+.service-card__title {
+  position: absolute;
+  top: calc(100% - 2.875rem);
+  left: 1rem;
+  width: 7.0625rem;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 0.9375rem;
+  letter-spacing: -0.0175rem;
+}
+
+/* ---------- International ---------- */
+.international {
+  --gap-top: 6.25rem;
+  --gap-bottom: max(2.5rem, 6.375rem - var(--deficit) * 0.3);
+  background: var(--cream);
+}
+
+.international__sky {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.international__sky img {
+  width: 100%;
+  height: auto;
+  transform: translateY(-31.23%);
+}
+
+.international__sky::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 16.117%, rgba(255, 255, 255, 0.45));
+}
+
+.international__content {
+  text-align: center;
+}
+
+.international__title {
+  color: #fff;
+  font-weight: 800;
+}
+
+.international__copy {
+  max-width: 64.625rem;
+  margin: 1rem auto 0;
+  color: var(--gray-6);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3125rem;
+  letter-spacing: -0.02rem;
+}
+
+.international__regions {
+  display: flex;
+  gap: 1.5rem;
+  width: min(42rem, 100%);
+  margin: max(1.75rem, 4.5rem - var(--deficit) * 0.35) auto 0;
+}
+
+.international__regions .btn {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Region carousel card */
+.region-card {
+  position: relative;
+  width: 13.5625rem;
+  height: 16.875rem;
+  margin: max(1.75rem, 4.5rem - var(--deficit) * 0.35) auto 0;
+  overflow: hidden;
+  border: 0.0625rem solid #fff;
+  border-radius: 0.75rem;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 99.99%, rgba(0, 0, 0, 0.12));
+  text-align: left;
+}
+
+.region-card__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.9s ease-in-out;
+}
+
+.region-card__slide[data-active='true'] {
+  opacity: 1;
+}
+
+.region-card__title {
+  position: absolute;
+  top: 1.5625rem;
+  left: 0;
+  right: 0;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.3125rem;
+  letter-spacing: -0.03rem;
+  text-align: center;
+}
+
+.region-card__title span {
+  display: block;
+}
+
+.region-card__title span + span {
+  margin-top: 0.375rem;
+}
+
+.region-card__flags {
+  position: absolute;
+  top: 7.4375rem;
+  left: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 1rem;
+  transform: translateX(-50%);
+}
+
+.flag-chip {
+  position: relative;
+  width: 2.0868rem;
+  overflow: hidden;
+  border-radius: 2.6667rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(0.0542rem);
+  -webkit-backdrop-filter: blur(0.0542rem);
+}
+
+.flag-chip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset -0.0741rem 0.1481rem 0.1481rem 0 rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+}
+
+.flag-chip__flag {
+  position: absolute;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+}
+
+.flag-chip__flag img {
+  position: absolute;
+}
+
+.region-card__dots {
+  position: absolute;
+  z-index: 1;
+  top: 15.6875rem;
+  left: 50%;
+  display: flex;
+  gap: 0.2344rem;
+  transform: translateX(-50%);
+}
+
+.region-card__dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  padding: 0;
+  border: 0;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: background-color 0.9s ease-in-out;
+}
+
+.region-card__dot[data-active='true'] {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* ---------- Practice ---------- */
+.practice {
+  --gap-top: max(6.875rem, 16.5rem - var(--deficit) * 0.5);
+  --gap-bottom: max(8.125rem, 15.375rem - var(--deficit) * 0.5);
+  background: var(--cream);
+}
+
+.practice__photo {
+  position: absolute;
+  top: calc(50% + 0.0625rem);
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  aspect-ratio: 1366 / 1951;
+  /* Figma layer blur 4 ≈ CSS blur(0.125rem) (Figma's value is roughly 2× the std-deviation). */
+  filter: blur(0.125rem);
+  transform: translateY(-50%);
+}
+
+.practice__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.practice__photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.practice__shade {
+  position: absolute;
+  inset: 0 -0.0625rem;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.practice__fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: max(45.9375rem, 53.8%);
+  height: 100%;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0), #000);
+}
+
+.practice__title {
+  max-width: 14.125rem;
+  padding-left: 0.0625rem;
+  color: #fff;
+  font-weight: 800;
+  line-height: 2.5rem;
+}
+
+.practice__quote {
+  max-width: 37.9375rem;
+  margin-top: 1.5rem;
+  padding-left: 0.0625rem;
+  color: var(--gray-6);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3125rem;
+  letter-spacing: -0.02rem;
+}
+
+/* Invisible copy of the quote, one span per word, used to find its line breaks. */
+.measured-lines {
+  position: relative;
+}
+
+.measured-lines__measure {
+  position: absolute;
+  inset: 0 0 auto;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.measured-lines .reveal-line {
+  white-space: nowrap;
+}
+
+.practice__cta-wrap.reveal-line {
+  width: min(20.25rem, 100%);
+  margin-top: 2.75rem;
+}
+
+.practice__cta {
+  width: 100%;
+}
+
+/* Line-by-line wipe, left to right. Hidden lines reset instantly; only the
+   reveal is animated. */
+.reveal-line {
+  display: block;
+  width: fit-content;
+  clip-path: inset(-20% 100% -20% 0);
+}
+
+[data-revealed='true'] .reveal-line {
+  clip-path: inset(-20% 0 -20% 0);
+  transition: clip-path 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: calc(var(--line) * 0.18s);
+}
+
+.practice__clients-label {
+  position: absolute;
+  z-index: 2;
+  bottom: 4.5rem;
+  left: 50%;
+  color: var(--gray-6);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3125rem;
+  letter-spacing: -0.02rem;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.clients {
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: calc(28.57% + 2.1106rem - 27.9413rem);
+  display: flex;
+  gap: 2.8676rem;
+  height: 3.75rem;
+  animation: clients-marquee 40s linear infinite;
+}
+
+/* Two identical sets: shifting by one set plus its gap loops seamlessly. */
+@keyframes clients-marquee {
+  to {
+    transform: translateX(calc(-50% - 1.4338rem));
+  }
+}
+
+.clients__set {
+  display: flex;
+  flex-shrink: 0;
+  gap: 2.8676rem;
+}
+
+.client {
+  position: relative;
+  flex-shrink: 0;
+  height: 3.75rem;
+  overflow: hidden;
+}
+
+.client__logo {
+  position: absolute;
+  background: #888;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-mode: alpha;
+  mask-origin: border-box;
+  mask-clip: no-clip;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  --gap-top: max(5.75rem, 6.25rem - var(--deficit) * 0.08);
+  --gap-bottom: max(4.5rem, 5.5rem - var(--deficit) * 0.15);
+  background: var(--cream);
+}
+
+.footer__title {
+  color: var(--gray-1);
+  font-size: 3.125rem;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.125rem;
+  text-align: center;
+}
+
+.footer__form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: max(1.25rem, 1.875rem - var(--deficit) * 0.1);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  border: 0.0625rem solid var(--nav-border);
+  border-radius: 7.5rem;
+  backdrop-filter: blur(0.2125rem);
+  -webkit-backdrop-filter: blur(0.2125rem);
+}
+
+.footer__form:focus-within {
+  border-color: var(--gold);
+}
+
+.footer__form input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--gray-1);
+  font-size: 1.25rem;
+  line-height: normal;
+  letter-spacing: -0.05rem;
+}
+
+.footer__form input::placeholder {
+  color: var(--gray-4);
+  opacity: 1;
+}
+
+.footer__submit {
+  flex-shrink: 0;
+  padding: 0.5rem 2rem;
+  border: 0;
+  border-radius: 0.875rem;
+  background: var(--gold);
+  color: var(--gray-6);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.04rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.footer__submit:hover {
+  opacity: 0.88;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 28.5rem 13.875rem minmax(0, 29.125rem);
+  margin-top: max(1.75rem, 3.25rem - var(--deficit) * 0.2);
+  color: var(--gray-1);
+  font-size: 1.25rem;
+  line-height: normal;
+  letter-spacing: -0.05rem;
+}
+
+.footer__email {
+  max-width: 19.375rem;
+  margin-top: 1.1875rem;
+  color: var(--gray-3);
+  line-height: 1.75rem;
+  letter-spacing: normal;
+}
+
+.footer__label {
+  color: var(--gray-3);
+  font-size: 1rem;
+  letter-spacing: -0.04rem;
+}
+
+.footer__links,
+.footer__contact {
+  padding-top: 0.8125rem;
+}
+
+.footer__links ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: max(1.125rem, 2rem - var(--deficit) * 0.12);
+  margin-top: 0.75rem;
+}
+
+.footer__contact {
+  font-style: normal;
+}
+
+.footer__contact p:not(.footer__label) {
+  margin-top: 0.75rem;
+}
+
+.footer__contact a {
+  display: inline-block;
+  margin-top: 2rem;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.1875rem;
+}
+
+.footer__rule {
+  width: 100%;
+  height: 0.0625rem;
+  margin-top: 0.9375rem;
+}
+
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: max(1rem, 1.8125rem - var(--deficit) * 0.1);
+  color: var(--gray-1);
+  font-size: 1rem;
+  line-height: normal;
+  letter-spacing: -0.04rem;
+}
+
+.footer__bottom p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+}
+
+.muted {
+  color: var(--gray-3);
+}
+
+/* ---------- Mobile header (shown ≤760px) ---------- */
+.mobile-brand {
+  display: none;
+  position: fixed;
+  z-index: 60;
+  top: 1.125rem;
+  left: var(--gutter);
+  width: 6rem;
+  height: 1.625rem;
+}
+
+.mobile-brand .logo {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.35s ease;
+}
+
+.mobile-brand[data-tone='dark'] .mobile-brand__on-light,
+.mobile-brand[data-tone='light'] .mobile-brand__on-dark {
+  opacity: 0;
+}
+
+.menu-toggle {
+  display: none;
+  position: fixed;
+  z-index: 60;
+  top: 1.125rem;
+  right: 1.125rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.35s ease;
+}
+
+/* Bigger tap target than the 24px icon. */
+.menu-toggle::before {
+  content: '';
+  position: absolute;
+  inset: -0.75rem;
+}
+
+.menu-toggle[data-tone='light'] {
+  color: var(--gray-1);
+}
+
+.menu-toggle__icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: currentColor;
+  mask: url('/assets/logo/menu-icon.svg') center / 100% 100% no-repeat;
+  -webkit-mask: url('/assets/logo/menu-icon.svg') center / 100% 100% no-repeat;
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  z-index: 70;
+  inset: 0;
+  flex-direction: column;
+  padding: 1.125rem var(--gutter) 2.5rem;
+  background: var(--cream);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-menu[data-open='true'] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-menu__close {
+  padding: 0.25rem 0;
+  border: 0;
+  background: none;
+  color: var(--gray-1);
+  font-size: 1rem;
+  letter-spacing: -0.04rem;
+  cursor: pointer;
+}
+
+.mobile-menu__links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 4rem;
+  color: var(--gray-1);
+  font-size: 2rem;
+  letter-spacing: -0.08rem;
+}
+
+.mobile-menu__cta {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+/* ---------- Smaller screens ---------- */
+@media (max-width: 1100px) {
+  .nav {
+    padding-inline: 2rem;
+  }
+
+  .nav__links {
+    gap: 1.5rem;
+  }
+
+  .footer__grid {
+    grid-template-columns: 1.4fr 0.8fr 1.4fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 760px) {
+  /* Mobile design: 440px wide, 956px-tall screens, 18px side margins. */
+  :root {
+    --gutter: 1.125rem;
+    --deficit: max(0rem, 59.75rem - var(--screen));
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+
+  .corner-mark {
+    bottom: 0.9375rem;
+    right: 1.165rem;
+  }
+
+  .mobile-brand {
+    display: block;
+  }
+
+  /* Hero */
+  .hero__sky {
+    top: -1.1875rem;
+    left: calc(50% - 42.125rem);
+    width: 125rem;
+    transform: none;
+  }
+
+  .hero__content {
+    padding-top: 5.125rem;
+  }
+
+  .hero__title {
+    max-width: 10.625rem;
+    margin-bottom: 0.625rem;
+    font-size: 2.5rem;
+    letter-spacing: -0.1rem;
+  }
+
+  .hero__lede {
+    max-width: 19.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.1875rem;
+    letter-spacing: -0.04rem;
+  }
+
+  .hero__content .btn {
+    padding-block: 0.625rem;
+  }
+
+  .hero__statue {
+    bottom: -1.75rem;
+    margin-left: -0.6875rem;
+  }
+
+  .hero__frame {
+    top: calc(var(--screen) - 17.1875rem);
+    left: calc(50% - 11.1875rem);
+    width: 22.375rem;
+  }
+
+  /* Services: left-aligned copy; the desktop card row stays full size, centred
+     on its middle card and running off both edges. */
+  .services {
+    --gap-top: max(4rem, 5.125rem - var(--deficit) * 0.1);
+    --gap-bottom: max(3.5rem, 14.25rem - var(--deficit) * 0.6);
+  }
+
+  .services__content {
+    text-align: left;
+  }
+
+  .services__title {
+    max-width: 19.375rem;
+  }
+
+  .services__copy {
+    max-width: 24rem;
+    margin: 1.875rem 0 max(2rem, 3.5rem - var(--deficit) * 0.2);
+    font-size: 1rem;
+    line-height: 1.1875rem;
+    letter-spacing: -0.04rem;
+  }
+
+  .services__carousel {
+    margin-top: max(2.5rem, 4.8125rem - var(--deficit) * 0.3);
+  }
+
+  /* International */
+  .international {
+    --gap-top: max(4rem, 5.125rem - var(--deficit) * 0.1);
+    --gap-bottom: max(3.5rem, 13.1875rem - var(--deficit) * 0.62);
+  }
+
+  .international__sky img {
+    position: absolute;
+    top: -85.75rem;
+    left: calc(50% - 87.9375rem);
+    width: 141.4375rem;
+    transform: none;
+  }
+
+  /* The design's gradient spans a taller box; these are its colours at the
+     top and bottom of the screen. */
+  .international__sky::after {
+    background: linear-gradient(to bottom, rgba(25, 25, 25, 0.45), rgba(253, 253, 253, 0.45));
+  }
+
+  .international__content {
+    text-align: left;
+  }
+
+  .international__copy {
+    max-width: 24rem;
+    margin: 1.875rem 0 0;
+  }
+
+  .region-card {
+    margin-top: max(2rem, 5.875rem - var(--deficit) * 0.25);
+  }
+
+  .international__regions {
+    width: 100%;
+    margin-top: max(2rem, 5.875rem - var(--deficit) * 0.25);
+  }
+
+  .international__regions .btn,
+  .practice__cta {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    letter-spacing: -0.035rem;
+  }
+
+  /* Practice */
+  .practice {
+    --gap-top: max(8rem, 23.3125rem - var(--deficit) * 0.8);
+    --gap-bottom: max(10rem, 18.25rem - var(--deficit) * 0.62);
+  }
+
+  .practice__photo {
+    top: -40.59375rem;
+    left: calc(50% - 59.90625rem);
+    width: 85.375rem;
+    height: 121.9375rem;
+    min-height: 0;
+    aspect-ratio: auto;
+    transform: none;
+  }
+
+  .practice__fade {
+    width: 100%;
+    background: linear-gradient(237deg, rgba(0, 0, 0, 0) 29.26%, #000 83.337%);
+  }
+
+  .practice__quote {
+    max-width: none;
+    margin-top: 1.875rem;
+  }
+
+  .practice__cta-wrap.reveal-line {
+    width: 11.875rem;
+    margin-top: 3.3125rem;
+  }
+
+  .practice .corner-mark {
+    bottom: 7.875rem;
+  }
+
+  .practice__clients-label {
+    bottom: 5.3125rem;
+  }
+
+  .clients {
+    bottom: 0.8125rem;
+    left: -33.0625rem;
+  }
+
+  /* Footer: one column */
+  .footer {
+    --gap-top: 3.0625rem;
+    --gap-bottom: 3.5rem;
+  }
+
+  .footer .corner-mark {
+    bottom: 2.0625rem;
+  }
+
+  .footer__title {
+    font-size: 2.5rem;
+    letter-spacing: -0.1rem;
+  }
+
+  .footer__form {
+    margin-top: 0.9375rem;
+    padding: 0.75rem 2rem;
+  }
+
+  .footer__form input {
+    font-size: 0.875rem;
+    letter-spacing: -0.035rem;
+  }
+
+  .footer__form input::placeholder {
+    color: #bdbdbd;
+  }
+
+  .footer__submit {
+    font-size: 0.875rem;
+    letter-spacing: -0.035rem;
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: 2.875rem;
+    margin-top: 2.875rem;
+  }
+
+  .footer__links,
+  .footer__contact {
+    padding-top: 0;
+  }
+
+  .footer__contact p:not(.footer__label) {
+    margin-top: 1.29rem;
+  }
+
+  .footer__rule {
+    margin-top: 1.625rem;
+  }
+
+  .footer__bottom {
+    flex-direction: column-reverse;
+    gap: 0.875rem;
+    margin-top: 1.6875rem;
+  }
+}
+
+/* Narrow phones: room for the whole email placeholder. */
+@media (max-width: 420px) {
+  .footer__form {
+    gap: 0.75rem;
+    padding: 0.75rem 0.75rem 0.75rem 1.25rem;
+  }
+
+  .footer__submit {
+    padding-inline: 1.25rem;
+  }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .hero__frame {
+    clip-path: inset(0 0 9.0625rem 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No stage: the screens simply follow one another. */
+  .screens-track {
+    height: auto !important;
+  }
+
+  .screens-stage {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .screen-layer {
+    position: relative;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  .hero {
+    position: relative;
+  }
+
+  .hero-reveal {
+    opacity: 1;
+  }
+
+  /* Static frame: hide the part that would hang into the next screen. */
+  .hero__frame {
+    clip-path: inset(0 0 7.25rem 0);
+  }
+
+  .reveal-line {
+    clip-path: none;
+  }
+
+  .clients {
+    animation: none;
+  }
+
+  .nav,
+  .region-card__slide,
+  .region-card__dot {
+    transition: none;
+  }
+}
