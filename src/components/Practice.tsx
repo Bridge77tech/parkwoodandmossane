@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useMeasuredLines } from '../hooks/useMeasuredLines'
 import { rem } from '../units'
 import { CornerMark } from './Logo'
+import { Picture } from './Picture'
 
 type Client = {
   src: string
@@ -110,7 +111,7 @@ export function Practice() {
       data-revealed={revealed}
     >
       <div className="practice__photo" aria-hidden>
-        <img src="/assets/services/service-1.png" alt="" />
+        <Picture name="services/service-1" mobile="services/practice-mobile" sizes="100vw" />
       </div>
       <div className="practice__shade" aria-hidden />
       <CornerMark />

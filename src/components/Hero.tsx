@@ -1,9 +1,10 @@
 import { useRef, type ReactNode } from 'react'
 
-import { ease, prefersReducedMotion, useScrollFrame } from '../hooks/useScrollFrame'
+import { ease, scrollEffectsEnabled, useScrollFrame } from '../hooks/useScrollFrame'
 import { getTimeline, progress as timelineProgress } from '../timeline'
 import { designPx } from '../units'
 import { CornerMark } from './Logo'
+import { Picture } from './Picture'
 
 // The frame's resting size, how far it hangs below the bottom edge and its
 // horizontal offset from centre (desktop vs mobile designs), plus its border and
@@ -31,7 +32,7 @@ export function Hero({ children }: { children: ReactNode }) {
     const timeline = getTimeline()
     if (!layer || !reveal || !frame || !timeline) return
 
-    if (prefersReducedMotion()) {
+    if (!scrollEffectsEnabled()) {
       frame.removeAttribute('style')
       reveal.removeAttribute('style')
       reveal.dataset.nav = 'light'
@@ -83,9 +84,20 @@ export function Hero({ children }: { children: ReactNode }) {
   return (
     <div className="hero-layer" ref={layerRef}>
       <section className="section hero" id="home" data-nav="hero" data-tone="dark">
-        <img className="hero__sky" src="/assets/hero/hero-sky.png" alt="" />
+        <Picture
+          name="hero/hero-sky"
+          mobile="hero/hero-sky-mobile"
+          sizes="2000px"
+          className="hero__sky"
+          priority
+        />
         <div className="hero__statue">
-          <img src="/assets/hero/scales-of-justice.png" alt="Bronze statue of Lady Justice holding scales" />
+          <Picture
+            name="hero/scales-of-justice"
+            sizes="(min-width: 1441px) 24vw, 352px"
+            alt="Bronze statue of Lady Justice holding scales"
+            priority
+          />
         </div>
 
         <div className="container hero__content">

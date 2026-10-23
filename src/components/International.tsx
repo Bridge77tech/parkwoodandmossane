@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { CornerMark } from './Logo'
+import { Picture } from './Picture'
 import { REGIONS, RegionCarousel } from './RegionCarousel'
 
 // The buttons sit Francophone-first in the design, so look slides up by id.
@@ -15,7 +16,7 @@ export function International() {
   return (
     <section className="section screen international" id="international" data-nav="hero" data-tone="dark">
       <div className="international__sky" aria-hidden>
-        <img src="/assets/international/clouds-bg.jpg" alt="" />
+        <Picture name="international/clouds" mobile="international/clouds-mobile" sizes="100vw" />
       </div>
 
       <div className="container international__content">

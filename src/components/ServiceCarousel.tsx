@@ -1,12 +1,14 @@
 import { useEffect, useRef, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react'
 
-import { ease, prefersReducedMotion, useScrollFrame } from '../hooks/useScrollFrame'
+import { ease, prefersReducedMotion, scrollEffectsEnabled, useScrollFrame } from '../hooks/useScrollFrame'
 import { getTimeline, progress } from '../timeline'
 import { designPx, rem } from '../units'
+import type images from '../images.generated.json'
+import { Picture } from './Picture'
 
 type Service = {
   title: string
-  image: string
+  image: keyof typeof images
   cardHeight: number
   imageWidth: number
   imageHeight: number
@@ -15,13 +17,13 @@ type Service = {
 
 // Card heights and image crops follow the staggered layout in the design.
 const SERVICES: Service[] = [
-  { title: 'Compliance & risk assessments', image: 'service-1.png', cardHeight: 205, imageWidth: 158, imageHeight: 225.714, tint: true },
-  { title: 'Private wealth management', image: 'service-2.png', cardHeight: 210, imageWidth: 150.035, imageHeight: 225.109, tint: true },
-  { title: 'International business law', image: 'service-3.png', cardHeight: 220, imageWidth: 169, imageHeight: 300, tint: true },
-  { title: 'Corporate & commercial law', image: 'service-4.png', cardHeight: 230, imageWidth: 153.295, imageHeight: 230, tint: true },
-  { title: 'Intellectual property rights', image: 'service-5.png', cardHeight: 220, imageWidth: 183.954, imageHeight: 276, tint: true },
-  { title: 'Construction law', image: 'service-6.png', cardHeight: 210, imageWidth: 200, imageHeight: 300 },
-  { title: 'Real property law', image: 'service-7.png', cardHeight: 205, imageWidth: 166.625, imageHeight: 250, tint: true },
+  { title: 'Compliance & risk assessments', image: 'services/service-1', cardHeight: 205, imageWidth: 158, imageHeight: 225.714, tint: true },
+  { title: 'Private wealth management', image: 'services/service-2', cardHeight: 210, imageWidth: 150.035, imageHeight: 225.109, tint: true },
+  { title: 'International business law', image: 'services/service-3', cardHeight: 220, imageWidth: 169, imageHeight: 300, tint: true },
+  { title: 'Corporate & commercial law', image: 'services/service-4', cardHeight: 230, imageWidth: 153.295, imageHeight: 230, tint: true },
+  { title: 'Intellectual property rights', image: 'services/service-5', cardHeight: 220, imageWidth: 183.954, imageHeight: 276, tint: true },
+  { title: 'Construction law', image: 'services/service-6', cardHeight: 210, imageWidth: 200, imageHeight: 300 },
+  { title: 'Real property law', image: 'services/service-7', cardHeight: 205, imageWidth: 166.625, imageHeight: 250, tint: true },
 ]
 
 // Three copies of the set: the middle one rests where the design places the
@@ -128,7 +130,7 @@ export function ServiceCarousel() {
     const timeline = getTimeline()
     if (!track || !timeline) return
     const cards = Array.from(track.children) as HTMLElement[]
-    const spread = prefersReducedMotion() ? 0 : ease(progress(timeline, 'cover', 1))
+    const spread = scrollEffectsEnabled() ? ease(progress(timeline, 'cover', 1)) : 0
     motion.current.spread = spread
 
     if (spread === 0) {
@@ -230,11 +232,10 @@ export function ServiceCarousel() {
                 } as CSSProperties
               }
             >
-              <img
+              <Picture
+                name={service.image}
+                sizes="(min-width: 1441px) 14vw, 200px"
                 className="service-card__image"
-                src={`/assets/services/${service.image}`}
-                alt=""
-                draggable={false}
               />
               {service.tint && <span className="service-card__tint" aria-hidden />}
               <span className="service-card__blur" aria-hidden />

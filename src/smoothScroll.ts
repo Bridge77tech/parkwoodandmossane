@@ -1,7 +1,7 @@
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
 
-import { prefersReducedMotion } from './hooks/useScrollFrame'
+import { prefersReducedMotion, scrollEffectsEnabled } from './hooks/useScrollFrame'
 import { arrivalOffset, getTimeline } from './timeline'
 
 // Where an in-page link should land: the point in the scroll timeline where
@@ -10,7 +10,7 @@ import { arrivalOffset, getTimeline } from './timeline'
 function anchorTarget(target: HTMLElement): number | HTMLElement {
   const timeline = getTimeline()
   const layer = target.closest<HTMLElement>('.screen-layer')
-  if (!timeline || !layer) return target
+  if (!timeline || !layer || !scrollEffectsEnabled()) return target
   if (target.closest('.hero')) return 0
   return arrivalOffset(timeline, timeline.layers.indexOf(layer))
 }

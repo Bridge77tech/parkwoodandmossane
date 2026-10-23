@@ -11,6 +11,12 @@ export const ease = (value: number, edge0 = 0, edge1 = 1) => {
 export const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+// Scroll-driven effects (pinned screens, the hero reveal, the card spread,
+// screens sliding over each other) run on desktop only; phones scroll normally.
+// Keep the breakpoint in sync with the static-layout block in styles.css.
+export const scrollEffectsEnabled = () =>
+  !prefersReducedMotion() && !window.matchMedia('(max-width: 760px)').matches
+
 // Runs `callback` at most once per animation frame while the page scrolls or
 // resizes, plus once on mount. Write styles directly in the callback rather than
 // setting state, so scroll-driven animation doesn't re-render React.

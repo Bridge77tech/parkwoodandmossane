@@ -1,6 +1,6 @@
 import { Children, useRef, type ReactNode } from 'react'
 
-import { prefersReducedMotion, useScrollFrame } from '../hooks/useScrollFrame'
+import { scrollEffectsEnabled, useScrollFrame } from '../hooks/useScrollFrame'
 import { getTimeline, progress } from '../timeline'
 
 // How far a screen eases back while the next one rises over it.
@@ -18,7 +18,7 @@ export function Screens({ children }: { children: ReactNode }) {
     const timeline = getTimeline()
     if (!track || !timeline) return
 
-    if (prefersReducedMotion()) {
+    if (!scrollEffectsEnabled()) {
       track.style.height = ''
       timeline.layers.forEach((layer) => layer.removeAttribute('style'))
       return

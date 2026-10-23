@@ -1,0 +1,85 @@
+{
+  "flags/benin": [
+    256
+  ],
+  "flags/burkina-faso": [
+    256
+  ],
+  "flags/cameroon": [
+    256
+  ],
+  "flags/cote-d-ivoire": [
+    256
+  ],
+  "flags/gambia": [
+    256
+  ],
+  "flags/ghana": [
+    256
+  ],
+  "flags/guinea": [
+    256
+  ],
+  "flags/liberia": [
+    256
+  ],
+  "flags/mali": [
+    256
+  ],
+  "flags/nigeria": [
+    256
+  ],
+  "flags/senegal": [
+    256
+  ],
+  "flags/sierra-leone": [
+    256
+  ],
+  "hero/hero-sky": [
+    2000
+  ],
+  "hero/scales-of-justice": [
+    700,
+    1333
+  ],
+  "international/clouds": [
+    1400,
+    2000,
+    2731
+  ],
+  "services/service-1": [
+    400,
+    800,
+    1400
+  ],
+  "services/service-2": [
+    400,
+    800,
+    1333
+  ],
+  "services/service-3": [
+    400,
+    800,
+    1125
+  ],
+  "services/service-4": [
+    400,
+    800,
+    1333
+  ],
+  "services/service-5": [
+    400,
+    800,
+    1333
+  ],
+  "services/service-6": [
+    400,
+    800,
+    1333
+  ],
+  "services/service-7": [
+    400,
+    800,
+    1333
+  ]
+}
