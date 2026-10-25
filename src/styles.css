@@ -333,8 +333,6 @@ input {
   top: 0;
   height: var(--screen);
   overflow: hidden;
-  /* Shows around a screen as it eases back under the next one. */
-  background: #000;
 }
 
 .screen-layer {
@@ -342,7 +340,6 @@ input {
   top: 0;
   left: 0;
   width: 100%;
-  transform-origin: 50% calc(var(--screen) / 2);
   will-change: transform;
 }
 

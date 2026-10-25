@@ -1,7 +1,6 @@
 import { useEffect, useRef, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react'
 
-import { ease, prefersReducedMotion, scrollEffectsEnabled, useScrollFrame } from '../hooks/useScrollFrame'
-import { getTimeline, progress } from '../timeline'
+import { prefersReducedMotion } from '../hooks/useScrollFrame'
 import { designPx, rem } from '../units'
 import type images from '../images.generated.json'
 import { Picture } from './Picture'
@@ -42,14 +41,11 @@ type Motion = {
   hovering: boolean
   lastX: number
   lastTime: number
-  spread: number
 }
 
 // The services cards as an endless carousel: it drifts left on its own, and
 // can be dragged or swiped, moved with a sideways trackpad gesture, or stepped
-// with the arrow keys. While the next screen rises over this one it freezes and
-// the cards part: those left of centre slide left, those right slide right,
-// and the one nearest the centre sinks back into the page.
+// with the arrow keys.
 export function ServiceCarousel() {
   const viewportRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLUListElement>(null)
@@ -61,7 +57,6 @@ export function ServiceCarousel() {
     hovering: false,
     lastX: 0,
     lastTime: 0,
-    spread: 0,
   })
 
   // Animation loop: drift, momentum, keyboard glide and wrapping.
@@ -75,7 +70,7 @@ export function ServiceCarousel() {
       const track = trackRef.current
       const state = motion.current
       if (!track) return
-      // Nothing to animate while this screen is covered by the next one.
+      // Nothing to animate once this screen has scrolled away.
       if (track.closest<HTMLElement>('.screen-layer')?.style.visibility === 'hidden') return
 
       // One loop period: from a card to the same card in the next copy (gap included).
@@ -84,7 +79,7 @@ export function ServiceCarousel() {
       if (!setWidth) return
       if (Number.isNaN(state.offset)) state.offset = -setWidth
 
-      if (state.spread === 0 && !state.dragging) {
+      if (!state.dragging) {
         if (Math.abs(state.velocity) > 1) {
           state.offset += state.velocity * dt
           state.velocity *= MOMENTUM_DECAY ** dt
@@ -115,7 +110,7 @@ export function ServiceCarousel() {
     const viewport = viewportRef.current
     if (!viewport) return
     const onWheel = (event: WheelEvent) => {
-      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY) || motion.current.spread > 0) return
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return
       event.preventDefault()
       motion.current.offset -= event.deltaX
       motion.current.velocity = 0
@@ -124,44 +119,9 @@ export function ServiceCarousel() {
     return () => viewport.removeEventListener('wheel', onWheel)
   }, [])
 
-  // The card spread, driven by the page timeline (screen 3 is layer 1).
-  useScrollFrame(() => {
-    const track = trackRef.current
-    const timeline = getTimeline()
-    if (!track || !timeline) return
-    const cards = Array.from(track.children) as HTMLElement[]
-    const spread = scrollEffectsEnabled() ? ease(progress(timeline, 'cover', 1)) : 0
-    motion.current.spread = spread
-
-    if (spread === 0) {
-      cards.forEach((card) => {
-        card.style.transform = ''
-        card.style.opacity = ''
-      })
-      return
-    }
-
-    // Classify cards by where they sit now (the carousel is frozen meanwhile).
-    const trackLeft = track.getBoundingClientRect().left
-    const centre = window.innerWidth / 2
-    const offsets = cards.map((card) => trackLeft + card.offsetLeft + card.offsetWidth / 2 - centre)
-    const middle = offsets.reduce((best, dx, index) => (Math.abs(dx) < Math.abs(offsets[best]!) ? index : best), 0)
-    const distance = window.innerWidth / 2 + 100
-
-    cards.forEach((card, index) => {
-      if (index === middle) {
-        card.style.transform = `perspective(1000px) translateZ(${-1200 * spread}px)`
-        card.style.opacity = `${1 - 0.85 * spread}`
-      } else {
-        card.style.transform = `translateX(${Math.sign(offsets[index]!) * distance * spread}px)`
-        card.style.opacity = ''
-      }
-    })
-  })
-
   const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
     const state = motion.current
-    if (state.spread > 0 || (event.pointerType === 'mouse' && event.button !== 0)) return
+    if (event.pointerType === 'mouse' && event.button !== 0) return
     state.dragging = true
     state.velocity = 0
     state.glide = 0

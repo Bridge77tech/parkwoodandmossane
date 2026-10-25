@@ -21,9 +21,9 @@ function anchorTarget(target: HTMLElement): number | HTMLElement {
 export function startSmoothScroll() {
   if (prefersReducedMotion()) return
 
-  // Site-wide scroll feel: each wheel notch travels 80% of the browser default
-  // and eases in over roughly half a second — calm, but not sluggish.
-  const lenis = new Lenis({ lerp: 0.075, wheelMultiplier: 0.8 })
+  // Site-wide scroll feel: each wheel notch travels the browser's normal
+  // distance and glides in over about a third of a second — smooth, not slow.
+  const lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 1 })
 
   const raf = (time: number) => {
     lenis.raf(time)

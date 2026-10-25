@@ -40,7 +40,10 @@ export function Hero({ children }: { children: ReactNode }) {
       return
     }
 
-    const progress = timelineProgress(timeline, 'reveal', 0)
+    draw(timelineProgress(timeline, 'reveal', 0), layer, reveal, frame)
+  })
+
+  const draw = (progress: number, layer: HTMLDivElement, reveal: HTMLDivElement, frame: HTMLDivElement) => {
     const grow = ease(progress)
 
     // Start: the frame resting on the bottom edge of the screen. End: just past every edge.
@@ -79,7 +82,7 @@ export function Hero({ children }: { children: ReactNode }) {
     // Hand over to the light nav once the revealed screen is behind it.
     reveal.dataset.nav = grow < 0.72 ? 'hero' : 'light'
     reveal.dataset.tone = grow < 0.72 ? 'dark' : 'light'
-  })
+  }
 
   return (
     <div className="hero-layer" ref={layerRef}>
