@@ -3,7 +3,7 @@ import { ServiceCarousel } from './ServiceCarousel'
 
 export function Services() {
   return (
-    <section className="section screen services" id="about">
+    <section className="section screen services" id="about" data-nav="light" data-tone="light">
       <div className="container services__content">
         <h2 className="section-title services__title">
           Here to help <em>YOU</em> succeed

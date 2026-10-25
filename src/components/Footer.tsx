@@ -29,7 +29,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="section screen footer" id="contact" data-nav="light" data-tone="light" role="contentinfo">
+    <footer className="section screen footer" id="contact" data-nav="light" data-tone="light">
       <div className="container footer__content">
         <h2 className="footer__title">Here to Help You</h2>
 

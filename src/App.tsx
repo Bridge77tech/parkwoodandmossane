@@ -1,5 +1,4 @@
 import { Navigation } from './components/Navigation'
-import { Screens } from './components/Screens'
 import { Hero } from './components/Hero'
 import { Services } from './components/Services'
 import { International } from './components/International'
@@ -10,14 +9,13 @@ export default function App() {
   return (
     <>
       <Navigation />
-      <Screens>
-        <Hero>
-          <Services />
-        </Hero>
+      <main>
+        <Hero />
+        <Services />
         <International />
         <Practice />
-        <Footer />
-      </Screens>
+      </main>
+      <Footer />
     </>
   )
 }

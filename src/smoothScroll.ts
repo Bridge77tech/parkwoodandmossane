@@ -1,29 +1,16 @@
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
 
-import { prefersReducedMotion, scrollEffectsEnabled } from './hooks/useScrollFrame'
-import { arrivalOffset, getTimeline } from './timeline'
+import { prefersReducedMotion } from './hooks/useScrollFrame'
 
-// Where an in-page link should land: the point in the scroll timeline where
-// the target's screen has fully arrived (screens are stacked layers, so their
-// document positions don't say where they appear).
-function anchorTarget(target: HTMLElement): number | HTMLElement {
-  const timeline = getTimeline()
-  const layer = target.closest<HTMLElement>('.screen-layer')
-  if (!timeline || !layer || !scrollEffectsEnabled()) return target
-  if (target.closest('.hero')) return 0
-  return arrivalOffset(timeline, timeline.layers.indexOf(layer))
-}
-
-// Smooths wheel/trackpad scrolling so scroll-driven animations glide rather
-// than jump. Lenis drives the real window scroll, so existing scroll listeners
-// keep working unchanged.
+// Smooths wheel/trackpad scrolling site-wide. Lenis drives the real window
+// scroll, so scroll listeners (e.g. the nav) keep working unchanged.
 export function startSmoothScroll() {
   if (prefersReducedMotion()) return
 
-  // Site-wide scroll feel: each wheel notch travels the browser's normal
-  // distance and glides in over about a third of a second — smooth, not slow.
-  const lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 1 })
+  // Each wheel notch travels the browser's normal distance and glides in over
+  // about 0.4s: smooth, but not slow.
+  const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1 })
 
   const raf = (time: number) => {
     lenis.raf(time)
@@ -37,7 +24,7 @@ export function startSmoothScroll() {
     const target = id ? document.getElementById(id) : null
     if (!target) return
     event.preventDefault()
-    lenis.scrollTo(anchorTarget(target), {
+    lenis.scrollTo(target, {
       duration: 1.8,
       easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2),
     })

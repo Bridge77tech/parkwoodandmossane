@@ -319,57 +319,10 @@ input {
   opacity: 0.75;
 }
 
-/* ---------- Screen stage ---------- */
-/* Every screen is a layer in one pinned, screen-sized stage; Screens.tsx moves
-   the layers along the scroll timeline and sets the track's height to its
-   length (the value here is just a pre-JS placeholder). */
-.screens-track {
-  position: relative;
-  height: calc(var(--screen) * 10);
-}
-
-.screens-stage {
-  position: sticky;
-  top: 0;
-  height: var(--screen);
-  overflow: hidden;
-}
-
-.screen-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  will-change: transform;
-}
-
-/* Before JS runs, keep later screens below the first. */
-.screen-layer + .screen-layer {
-  transform: translateY(var(--screen));
-}
-
 /* ---------- Hero ---------- */
-.hero-layer {
-  position: relative;
-}
-
 .hero {
-  position: absolute;
-  inset: 0 0 auto;
   height: var(--screen);
   background: #e1e1e1;
-}
-
-/* The next screen, revealed inside the growing frame (clip/opacity set in JS). */
-.hero-reveal {
-  position: relative;
-  z-index: 2;
-  opacity: 0;
-  will-change: clip-path, opacity;
-}
-
-.hero-reveal .services__content {
-  transform: scale(var(--reveal-scale, 1));
 }
 
 /* Keeps the design's crop of the sky, centred on the section. */
@@ -1410,45 +1363,6 @@ input {
 
   .footer__submit {
     padding-inline: 1.25rem;
-  }
-}
-
-/* No scroll effects (phones, or reduced motion): no stage — the screens simply
-   follow one another, and the hero frame rests in place. */
-@media (prefers-reduced-motion: reduce), (max-width: 760px) {
-  .screens-track {
-    height: auto !important;
-  }
-
-  .screens-stage {
-    position: static;
-    height: auto;
-    overflow: visible;
-  }
-
-  .screen-layer {
-    position: relative;
-    transform: none !important;
-    visibility: visible !important;
-  }
-
-  .hero {
-    position: relative;
-  }
-
-  .hero-reveal {
-    opacity: 1;
-  }
-
-  /* Hide the part of the frame that would hang into the next screen. */
-  .hero__frame {
-    clip-path: inset(0 0 7.25rem 0);
-  }
-}
-
-@media (max-width: 760px) {
-  .hero__frame {
-    clip-path: inset(0 0 9.0625rem 0);
   }
 }
 

@@ -70,8 +70,6 @@ export function ServiceCarousel() {
       const track = trackRef.current
       const state = motion.current
       if (!track) return
-      // Nothing to animate once this screen has scrolled away.
-      if (track.closest<HTMLElement>('.screen-layer')?.style.visibility === 'hidden') return
 
       // One loop period: from a card to the same card in the next copy (gap included).
       const cards = track.children as HTMLCollectionOf<HTMLElement>
