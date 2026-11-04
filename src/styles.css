@@ -664,21 +664,20 @@ input {
 
 /* ---------- Practice ---------- */
 .practice {
-  --gap-top: max(6.875rem, 16.5rem - var(--deficit) * 0.5);
-  --gap-bottom: max(8.125rem, 15.375rem - var(--deficit) * 0.5);
-  background: var(--cream);
+  --gap-top: max(8rem, 23rem - var(--deficit) * 0.75);
+  --gap-bottom: max(4.5rem, 6.875rem - var(--deficit) * 0.25);
+  background: #000;
 }
 
+/* The photo is 1400 design px wide and centred; its middle sits 59px above the
+   screen's. */
 .practice__photo {
   position: absolute;
-  top: calc(50% + 0.0625rem);
-  left: 0;
-  width: 100%;
-  min-height: 100%;
-  aspect-ratio: 1366 / 1951;
-  /* Figma layer blur 4 ≈ CSS blur(0.125rem) (Figma's value is roughly 2× the std-deviation). */
-  filter: blur(0.125rem);
-  transform: translateY(-50%);
+  top: calc(50% - 3.6875rem);
+  left: 50%;
+  width: 102.49%;
+  aspect-ratio: 2259 / 3000;
+  transform: translate(-50%, -50%);
 }
 
 .practice__photo img {
@@ -687,40 +686,56 @@ input {
   object-fit: cover;
 }
 
-.practice__photo::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.practice__shade {
-  position: absolute;
-  inset: 0 -0.0625rem;
-  background: rgba(0, 0, 0, 0.5);
-}
-
 .practice__fade {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: max(45.9375rem, 53.8%);
-  height: 100%;
-  background: linear-gradient(to left, rgba(0, 0, 0, 0), #000);
+  inset: 0;
+  background: linear-gradient(184.53deg, rgba(0, 0, 0, 0) 46.459%, #000 75.061%);
+}
+
+.practice__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.practice__tag {
+  position: relative;
+  padding: 0.375rem 3.75rem 0.375rem 5.0625rem;
+  border: 0.0625rem solid #fff;
+  border-radius: 1.5rem;
+  background: var(--glass);
+  backdrop-filter: blur(0.1781rem);
+  -webkit-backdrop-filter: blur(0.1781rem);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.035rem;
+  white-space: nowrap;
+}
+
+.practice__tag::before {
+  content: '•';
+  position: absolute;
+  left: 4.375rem;
 }
 
 .practice__title {
-  max-width: 14.125rem;
-  padding-left: 0.0625rem;
+  max-width: 26.625rem;
+  margin-top: 2rem;
   color: #fff;
   font-weight: 800;
   line-height: 2.5rem;
 }
 
-.practice__quote {
-  max-width: 37.9375rem;
+.practice__title .reveal-line {
+  margin-inline: auto;
+}
+
+.practice__copy {
+  max-width: 37.125rem;
   margin-top: 1.5rem;
-  padding-left: 0.0625rem;
   color: var(--gray-6);
   font-size: 1rem;
   font-weight: 500;
@@ -728,29 +743,13 @@ input {
   letter-spacing: -0.02rem;
 }
 
-/* Invisible copy of the quote, one span per word, used to find its line breaks. */
-.measured-lines {
-  position: relative;
-}
-
-.measured-lines__measure {
-  position: absolute;
-  inset: 0 0 auto;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.measured-lines .reveal-line {
-  white-space: nowrap;
-}
-
 .practice__cta-wrap.reveal-line {
-  width: min(20.25rem, 100%);
-  margin-top: 2.75rem;
+  margin-top: 1.875rem;
 }
 
 .practice__cta {
-  width: 100%;
+  font-size: 1.25rem;
+  letter-spacing: -0.05rem;
 }
 
 /* Line-by-line wipe, left to right. Hidden lines reset instantly; only the
@@ -767,10 +766,21 @@ input {
   transition-delay: calc(var(--line) * 0.18s);
 }
 
-.practice__clients-label {
+/* ---------- Clients ---------- */
+.clients-band {
+  position: relative;
+  height: 10.8125rem;
+  overflow: hidden;
+  background: #000;
+}
+
+.clients-band--mobile {
+  display: none;
+}
+
+.clients-band__label {
   position: absolute;
-  z-index: 2;
-  bottom: 4.5rem;
+  top: 2.5rem;
   left: 50%;
   color: var(--gray-6);
   font-size: 1rem;
@@ -781,11 +791,11 @@ input {
   transform: translateX(-50%);
 }
 
+/* The strip is 894 design px wide, centred, running off both edges. */
 .clients {
   position: absolute;
-  z-index: 2;
-  bottom: 0;
-  left: calc(28.57% + 2.1106rem - 27.9413rem);
+  top: 4.5625rem;
+  left: calc(50% - 27.9413rem);
   display: flex;
   gap: 2.8676rem;
   height: 3.75rem;
@@ -824,81 +834,15 @@ input {
 
 /* ---------- Footer ---------- */
 .footer {
-  --gap-top: max(5.75rem, 6.25rem - var(--deficit) * 0.08);
-  --gap-bottom: max(4.5rem, 5.5rem - var(--deficit) * 0.15);
+  position: relative;
+  overflow: hidden;
+  padding: 2.875rem 0 5.5rem;
   background: var(--cream);
-}
-
-.footer__title {
-  color: var(--gray-1);
-  font-size: 3.125rem;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.125rem;
-  text-align: center;
-}
-
-.footer__form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: max(1.25rem, 1.875rem - var(--deficit) * 0.1);
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  border: 0.0625rem solid var(--nav-border);
-  border-radius: 7.5rem;
-  backdrop-filter: blur(0.2125rem);
-  -webkit-backdrop-filter: blur(0.2125rem);
-}
-
-.footer__form:focus-within {
-  border-color: var(--gold);
-}
-
-.footer__form input {
-  flex: 1 1 auto;
-  min-width: 0;
-  padding: 0;
-  border: 0;
-  outline: none;
-  background: transparent;
-  color: var(--gray-1);
-  font-size: 1.25rem;
-  line-height: normal;
-  letter-spacing: -0.05rem;
-}
-
-.footer__form input::placeholder {
-  color: var(--gray-4);
-  opacity: 1;
-}
-
-.footer__submit {
-  flex-shrink: 0;
-  padding: 0.5rem 2rem;
-  border: 0;
-  border-radius: 0.875rem;
-  background: var(--gold);
-  color: var(--gray-6);
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.04rem;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-}
-
-.footer__submit:hover {
-  opacity: 0.88;
 }
 
 .footer__grid {
   display: grid;
   grid-template-columns: 28.5rem 13.875rem minmax(0, 29.125rem);
-  margin-top: max(1.75rem, 3.25rem - var(--deficit) * 0.2);
   color: var(--gray-1);
   font-size: 1.25rem;
   line-height: normal;
@@ -911,6 +855,10 @@ input {
   color: var(--gray-3);
   line-height: 1.75rem;
   letter-spacing: normal;
+}
+
+.footer__email a {
+  color: var(--gray-1);
 }
 
 .footer__label {
@@ -928,7 +876,7 @@ input {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: max(1.125rem, 2rem - var(--deficit) * 0.12);
+  gap: 2rem;
   margin-top: 0.75rem;
 }
 
@@ -936,13 +884,22 @@ input {
   font-style: normal;
 }
 
-.footer__contact p:not(.footer__label) {
+.footer__address {
   margin-top: 0.75rem;
 }
 
-.footer__contact a {
+.footer__contact > a {
   display: inline-block;
   margin-top: 2rem;
+}
+
+.footer__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+  margin-top: 2rem;
+  font-size: 1rem;
+  letter-spacing: -0.04rem;
 }
 
 .footer a:hover {
@@ -958,19 +915,17 @@ input {
 
 .footer__bottom {
   display: flex;
-  justify-content: space-between;
-  gap: 1.5rem;
-  margin-top: max(1rem, 1.8125rem - var(--deficit) * 0.1);
+  flex-wrap: wrap;
+  gap: 0.875rem;
+  margin-top: 1.8125rem;
   color: var(--gray-1);
   font-size: 1rem;
   line-height: normal;
   letter-spacing: -0.04rem;
 }
 
-.footer__bottom p {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.875rem;
+.footer__copy-mark {
+  color: #000;
 }
 
 .muted {
@@ -1238,26 +1193,23 @@ input {
     margin-top: max(2rem, 5.875rem - var(--deficit) * 0.25);
   }
 
-  .international__regions .btn,
-  .practice__cta {
+  .international__regions .btn {
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     letter-spacing: -0.035rem;
   }
 
-  /* Practice */
+  /* Practice: centred copy low on the screen, CTA below. */
   .practice {
-    --gap-top: max(8rem, 23.3125rem - var(--deficit) * 0.8);
-    --gap-bottom: max(10rem, 18.25rem - var(--deficit) * 0.62);
+    --gap-top: max(12rem, 34.0625rem - var(--deficit) * 0.85);
+    --gap-bottom: max(3.5rem, 4.75rem - var(--deficit) * 0.15);
   }
 
   /* Phone crop of the photo: the slice the design shows. */
   .practice__photo {
     top: -2.5rem;
-    left: calc(50% - 26.25rem);
-    width: 51.7125rem;
-    height: auto;
-    min-height: 0;
+    left: calc(50% - 16.25rem);
+    width: 32.5rem;
     aspect-ratio: auto;
     transform: none;
   }
@@ -1267,71 +1219,42 @@ input {
   }
 
   .practice__fade {
-    width: 100%;
-    background: linear-gradient(237deg, rgba(0, 0, 0, 0) 29.26%, #000 83.337%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 42.4%, #000 74.2%);
   }
 
-  .practice__quote {
-    max-width: none;
+  .practice__title {
+    margin-top: 1.875rem;
+  }
+
+  .practice__copy {
     margin-top: 1.875rem;
   }
 
   .practice__cta-wrap.reveal-line {
-    width: 11.875rem;
-    margin-top: 3.3125rem;
+    margin-top: 3.125rem;
   }
 
-  .practice .corner-mark {
-    bottom: 7.875rem;
+  /* Clients: the band follows Practice instead of Services. */
+  .clients-band--desktop {
+    display: none;
   }
 
-  .practice__clients-label {
-    bottom: 5.3125rem;
-  }
-
-  .clients {
-    bottom: 0.8125rem;
-    left: -33.0625rem;
+  .clients-band--mobile {
+    display: block;
   }
 
   /* Footer: one column */
   .footer {
-    --gap-top: 3.0625rem;
-    --gap-bottom: 3.5rem;
+    padding: 3.125rem 0 4.5rem;
   }
 
   .footer .corner-mark {
-    bottom: 2.0625rem;
-  }
-
-  .footer__title {
-    font-size: 2.5rem;
-    letter-spacing: -0.1rem;
-  }
-
-  .footer__form {
-    margin-top: 0.9375rem;
-    padding: 0.75rem 2rem;
-  }
-
-  .footer__form input {
-    font-size: 0.875rem;
-    letter-spacing: -0.035rem;
-  }
-
-  .footer__form input::placeholder {
-    color: #bdbdbd;
-  }
-
-  .footer__submit {
-    font-size: 0.875rem;
-    letter-spacing: -0.035rem;
+    bottom: 1.1875rem;
   }
 
   .footer__grid {
     grid-template-columns: 1fr;
-    gap: 2.875rem;
-    margin-top: 2.875rem;
+    gap: 1.875rem;
   }
 
   .footer__links,
@@ -1339,30 +1262,16 @@ input {
     padding-top: 0;
   }
 
-  .footer__contact p:not(.footer__label) {
+  .footer__address {
     margin-top: 1.29rem;
   }
 
   .footer__rule {
-    margin-top: 1.625rem;
+    margin-top: 3rem;
   }
 
   .footer__bottom {
-    flex-direction: column-reverse;
-    gap: 0.875rem;
-    margin-top: 1.6875rem;
-  }
-}
-
-/* Narrow phones: room for the whole email placeholder. */
-@media (max-width: 420px) {
-  .footer__form {
-    gap: 0.75rem;
-    padding: 0.75rem 0.75rem 0.75rem 1.25rem;
-  }
-
-  .footer__submit {
-    padding-inline: 1.25rem;
+    margin-top: 3.1875rem;
   }
 }
 

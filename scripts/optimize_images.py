@@ -59,11 +59,14 @@ crop("hero/hero-sky.png", "hero/hero-sky-mobile", (254, 0, 1094, 1100))
 # Statue (transparent): ~352 CSS px wide, up to ~2.5× on large screens.
 widths("hero/scales-of-justice.png", "hero/scales-of-justice", [700, 1333])
 
-# Service card photos: 150–200 CSS px cards. service-1 is also the Practice
-# background, ~1366 CSS px wide on desktop, with its own mobile crop.
+# Service card photos: 150–200 CSS px cards.
 for n in range(1, 8):
     widths(f"services/service-{n}.png", f"services/service-{n}", [400, 800, 1400])
-crop("services/service-1.png", "services/practice-mobile", (552, 625, 1400, 1793))
+
+# Practice background: ~1400 CSS px wide on desktop. On phones only a slice
+# shows; the crop matches the mobile .practice__photo rules in styles.css.
+widths("practice/lawyers.jpg", "practice/lawyers", [1400, 2259])
+crop("practice/lawyers.jpg", "practice/lawyers-mobile", (978, 590, 1959, 2828))
 
 # Screen 3 clouds: full-width background on desktop; on phones only a slice shows.
 widths("international/clouds-bg.jpg", "international/clouds", [1400, 2000, 2731])

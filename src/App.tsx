@@ -1,6 +1,7 @@
 import { Navigation } from './components/Navigation'
 import { Hero } from './components/Hero'
 import { Services } from './components/Services'
+import { Clients } from './components/Clients'
 import { International } from './components/International'
 import { Practice } from './components/Practice'
 import { Footer } from './components/Footer'
@@ -12,8 +13,10 @@ export default function App() {
       <main>
         <Hero />
         <Services />
+        <Clients placement="desktop" />
         <International />
         <Practice />
+        <Clients placement="mobile" />
       </main>
       <Footer />
     </>
